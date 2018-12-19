@@ -42,7 +42,7 @@ const createApp = function() {
     )
   );
 
-  // Provide access to js-scripts dir dir from the client-side
+  // Provide access to js-scripts dir from the client-side
   app.use(
     "/js-scripts",
     express.static(
