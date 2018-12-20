@@ -14,6 +14,16 @@ router.get("/", (req, res) => {
   });
 });
 
+/* @route           GET /
+   @description     App main page
+   @ access         Public */
+router.get("/video-chat", (req, res) => {
+  res.render("video-chat", {
+    UUID: p2pServer.UUID,
+    URL: `${ADDRESS}:${P2P_PORT}`.replace("localhost", "127.0.0.1")
+  });
+});
+
 // Further routing
 router.use("/peers", require("./routes/peers"));
 router.use("/messages", require("./routes/messages"));
