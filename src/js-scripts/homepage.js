@@ -1,52 +1,78 @@
 "use strict";
 
-const { p2pServer } = require("..");
-
 window.addEventListener("load", () => {
   /* ------------------------- Collect DOM elements ------------------------- */
 
-  // Chat platform
-  const chatTemplateEl = Handlebars.compile(
-    $("#chat-template") // internal script
-      .html()
-  );
-  const chatContentTemplateEl = Handlebars.compile(
-    $("#chat-content-template") // internal script
-      .html()
-  );
-  const chatEl = $("#chat");
+  // Collect any form
   const formEl = $(".form");
-  const messages = [];
-  let username;
 
-  // Local Video
-  const localImageEl = $("#local-image"); // Appears in place of cameras before streaming starts
-  const localVideoEl = $("#local-video");
+  // Collect online peers elements
+  const onlinePeersTemplateEl = Handlebars.compile(
+    $("#online-peers-template") // internal script
+    .html()
+  );
+  const onlinePeersContentTemplateEl = Handlebars.compile(
+    $("#online-peers-content-template") // internal script
+    .html()
+  );
+  const onlinePeers = $("#online-peers");
 
-  // Remote Videos
-  const remoteVideoTemplate = Handlebars.compile(
-    $("#remote-video-template") // internal script
+  // Collect invitations elements
+  const invitationsTemplateEl = Handlebars.compile(
+    $("#invitations-template") // internal script
+    .html()
+  );
+  const invitationsContentTemplateEl = Handlebars.compile(
+    $("#invitations-content-template") // internal script
+    .html()
+  );
+  const invitations = $("#invitations");
+
+  // Collect private chat elements
+  const videoChatTemplateEl = Handlebars.compile(
+    $("#video-chat-template") // internal script
       .html()
   );
-  const remoteVideosEl = $("#remote-videos");
+  const videoChooseTemplateEl = Handlebars.compile(
+    $("#video-choose-template") // internal script
+      .html()
+  )
+  const videoChatContentTemplateEl = Handlebars.compile(
+    $("#video-chat-content-template") // internal script
+      .html()
+  );
+  const videoChatEl = $("#video-chat");
 
-  /* ------------------------------ Initialize ------------------------------ */
+  /* ---------------------------- Event handlers ---------------------------- */
 
-  // Hide cameras until initialization
-  localVideoEl.hide();
-
-  // Add validation rules
-  formEl.form({
-    fields: {
-      roomName: "empty",
-      username: "empty"
+  // Submit button handler
+  $(".submit").on("click", event => {
+    switch (event.target.id) {
+      case "see-online-peers-btn":
+        alert(event.target.id);
+        break;
+      case "see-invitations-btn":
+        alert(event.target.id);
+        break;
+      case "join-video-chat-btn":
+        // Redirect to video-chat page
+        window.location.href = `${window.location.href}video-chat`;
+        break;
+      case "generate-new-key-btn":
+        alert(event.target.id);
+        break;
+      case "disconnect-btn":
+        alert(event.target.id);
+        break;
+      default:
+        alert();
+        break;
     }
   });
 
-  // Every connection starts with zero remote videos
-  let remoteVideosCount = 0;
+  /* ------------------------------ Initialize ------------------------------ */
 
-  // Establish WebRTC connection
+  // Establish WebRTC connection for private chat
   const webrtc = new SimpleWebRTC({
     // the id/element dom element that will hold local video
     localVideoEl: "local-video",
@@ -58,8 +84,6 @@ window.addEventListener("load", () => {
     detectSpeakingEvents: true,
     autoAdjustMic: false
   });
-
-  /* ---------------------------- Event handlers ---------------------------- */
 
   // New local video handler (event emitted immediately after page loads)
   webrtc.on("localStream", () => {
@@ -81,24 +105,6 @@ window.addEventListener("load", () => {
     remoteVideosCount += 1;
   });
 
-  // Room submit button handler
-  $(".submit").on("click", event => {
-    if (!formEl.form("is valid")) {
-      return false;
-    }
-    username = $("#username").val();
-    const roomName = $("#roomName")
-      .val()
-      .toLowerCase();
-    if (event.target.id === "create-btn") {
-      createRoom(roomName);
-      console.log("ROOM created");
-    } else {
-      joinRoom(roomName);
-    }
-    return false;
-  });
-
   // New message handler
   webrtc.connection.on("message", data => {
     if (data.type === "chat") {
@@ -109,6 +115,16 @@ window.addEventListener("load", () => {
   });
 
   /* ------------------------------ Functions ------------------------------ */
+
+  const createPrivateChatRoom = roomName => {
+    // eslint-disable-next-line no-console
+    console.info(`Creating new room: ${roomName}`);
+    webrtc.createRoom(roomName, (err, name) => {
+      formEl.form("clear");
+      showChatRoom(name);
+      postMessage(`${username} created chatroom`);
+    });
+  };
 
   // Post Local Message
   const postMessage = message => {
@@ -153,17 +169,6 @@ window.addEventListener("load", () => {
         const message = $("#post-message").val();
         postMessage(message);
       }
-    });
-  };
-
-  // Register new Chat Room
-  const createRoom = roomName => {
-    // eslint-disable-next-line no-console
-    console.info(`Creating new room: ${roomName}`);
-    webrtc.createRoom(roomName, (err, name) => {
-      formEl.form("clear");
-      showChatRoom(name);
-      postMessage(`${username} created chatroom`);
     });
   };
 

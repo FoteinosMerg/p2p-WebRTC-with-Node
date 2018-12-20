@@ -1,7 +1,5 @@
 "use strict";
 
-const { p2pServer } = require("..");
-
 window.addEventListener("load", () => {
   /* ------------------------- Collect DOM elements ------------------------- */
 
@@ -92,7 +90,6 @@ window.addEventListener("load", () => {
       .toLowerCase();
     if (event.target.id === "create-btn") {
       createRoom(roomName);
-      console.log("ROOM created");
     } else {
       joinRoom(roomName);
     }
