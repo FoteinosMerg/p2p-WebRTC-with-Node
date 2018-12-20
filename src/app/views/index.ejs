@@ -46,6 +46,7 @@
           <!-- Chat Room Messages -->
           <div id="chat"></div>
         </div>
+
       </div>
       <!-- End of Chat Section -->
 
@@ -78,7 +79,9 @@
 
   </div>
 
-  <!-- Chat Template -->
+  <!-- Internal scripts: "chat-template", "chat-content-template" "remote-video-template -->
+
+  <!-- Chat Template (room ID, empty chat messages container, posting input) -->
   <script id="chat-template" type="text/x-handlebars-template">
     <h3 class="ui orange header">Room ID -> <strong>{{ room }}</strong></h3>
     <hr>
@@ -93,7 +96,7 @@
     </div>
   </script>
 
-  <!-- Chat Content Template -->
+  <!-- Chat Content Template (display user chat messages) -->
   <script id="chat-content-template" type="text/x-handlebars-template">
     {{#each messages}}
       <div class="event">
@@ -115,13 +118,13 @@
     {{/each}}
   </script>
 
-  <!-- Remote Video Template -->
+  <!-- Remote Video Template (display streams from remote camera) -->
   <script id="remote-video-template" type="text/x-handlebars-template">
     <div id="{{ id }}" class="four wide column"></div>
   </script>
 
 
-  <!-- Scripts -->
+  <!-- External scripts -->
   <script src="node-scripts/jquery/dist/jquery.min.js"></script>
   <script src="node-scripts/semantic-ui-css/semantic.min.js"></script>
   <script src="node-scripts/handlebars/dist/handlebars.min.js "></script>
