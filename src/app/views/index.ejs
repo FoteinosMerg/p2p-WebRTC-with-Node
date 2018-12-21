@@ -1,212 +1,110 @@
 <!-- src/app/views/index.ejs -->
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="node-scripts/semantic-ui-css/semantic.min.css">
-  <title>SimpleWebRTC Demo</title>
-  <style>
-    html { margin-top: 20px; }
-    #online-peers-content { height: 180px;  overflow-y: scroll; }
-    #online-peers-content { height: 180px;  overflow-y: scroll; }
-  </style>
-</head>
-<body>
-  <!-- Main Content -->
-  <div class="ui container">
-    <h1 id="UUID" class="ui header"><%= UUID %></h1>
-    <h1 id="URL" class="ui header"><%= URL %></h1>
-    <hr>
-    <br>
 
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="node-scripts/semantic-ui-css/semantic.min.css">
+    <title>SimpleWebRTC Demo</title>
+    <style>
+      html { margin-top: 20px; }
+      #online-peers-content { height: 180px;  overflow-y: scroll; }
+      #online-peers-content { height: 180px;  overflow-y: scroll; }
+    </style>
+  </head>
 
-    <div class="ui two column stackable grid">
-
-      <!-- see online peers -->
-      <div class="ui sixteen wide column">
-        <div class="ui segment">
-          <!-- Online peers form -->
-          <div class="ui form">
-            <div class="ui buttons">
-              <div id="see-online-peers-btn" class="ui submit orange button">See online peers</div>
-            </div>
-          </div>
-          <!-- Online peers displayer -->
-          <div id="online-peers"></div>
-        </div>
-
-      </div>
-
-      <!-- see invitations -->
-      <div class="ui sixteen wide column">
-        <div class="ui segment">
-          <div class="ui form">
-            <div class="ui buttons">
-              <div id="see-invitations-btn" class="ui submit green button">See invitations</div>
-            </div>
-          </div>
-          <!-- Invitations displayer -->
-          <div id="invitations"></div>
-        </div>
-
-      </div>
-
-      <!-- join video chat -->
-      <div class="ui sixteen wide column">
-        <div class="ui segment">
-          <div class="ui form">
-            <div class="ui buttons">
-              <div id="join-video-chat-btn" class="ui submit purple button">Join video chat</div>
-            </div>
-          </div>
-          <!-- Messenger -->
-          <div id="video-chat"></div>
-        </div>
-
-      </div>
-
-      <!-- generate new key -->
-      <div class="ui sixteen wide column">
-        <div class="ui segment">
-          <div class="ui form">
-            <div class="ui buttons">
-              <div id="generate-new-key-btn" class="ui submit black button">Generate new key</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- disconnect -->
-      <div class="ui four wide column">
-        <div class="ui segment">
-          <div class="ui form">
-            <div class="ui buttons">
-              <div id="disconnect-btn" class="ui submit red button">Disconnect</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-  </div>
-
-  <!-- Internal scripts: "chat-template", "chat-content-template" "remote-video-template -->
-
-  <!-- Online peers template -->
-  <script id="online-peers-template" type="text/x-handlebars-template">
-    <h3 class="ui orange header">Room ID -> <strong>{{ room }}</strong></h3>
-    <hr>
-    <div id="online-peers-content" class="ui feed"> </div>
-    <hr>
-    <div class="ui form">
-      <div class="ui field">
-        <label>Post Message</label>
-        <textarea id="post-message" name="post-message" rows="1"></textarea>
-      </div>
-      <div id="post-btn" class="ui primary submit button">Send</div>
-    </div>
-  </script>
-
-  <!-- Online Peers Content Template -->
-  <script id="online-peers-content-template" type="text/x-handlebars-template">
-    {{#each messages}}
-    <div class="event">
-      <div class="label">
-        <i class="icon blue user"></i>
-      </div>
-      <div class="content">
-        <div class="summary">
-          <a href="#"> {{ username }}</a> posted on
-          <div class="date">
-            {{ postedOn }}
-          </div>
-        </div>
-        <div class="extra text">
-          {{ message }}
-        </div>
-      </div>
-    </div>
-    {{/each}}
-  </script>
-
-  <!-- invitations template -->
-  <script id="invitations-template" type="text/x-handlebars-template">
-    <h3 class="ui orange header">Room ID -> <strong>{{ room }}</strong></h3>
-    <hr>
-    <div id="invitations-content" class="ui feed"> </div>
-    <hr>
-    <div class="ui form">
-      <div class="ui field">
-        <label>Post Message</label>
-        <textarea id="post-message" name="post-message" rows="1"></textarea>
-      </div>
-      <div id="post-btn" class="ui primary submit button">Send</div>
-    </div>
-  </script>
-
-  <!-- Invitations Content Template -->
-  <script id="invitations-content-template" type="text/x-handlebars-template">
-    {{#each messages}}
-    <div class="event">
-      <div class="label">
-        <i class="icon blue user"></i>
-      </div>
-      <div class="content">
-        <div class="summary">
-          <a href="#"> {{ username }}</a> posted on
-          <div class="date">
-            {{ postedOn }}
-          </div>
-        </div>
-        <div class="extra text">
-          {{ message }}
-        </div>
-      </div>
-    </div>
-    {{/each}}
-  </script>
-
-  <!-- Video Chat Template -->
-  <script id="video-chat-template" type="text/x-handlebars-template">
-    <h3 class="ui orange header">Room ID -> <strong>{{ room }}</strong></h3>
-    <hr>
-    <div id="video-chat-content" class="ui feed"> </div>
-    <hr>
-    <div class="ui form">
-      <div class="ui field">
-        <label>Post Message</label>
-        <textarea id="post-message" name="post-message" rows="1"></textarea>
-      </div>
-      <div id="post-btn" class="ui primary submit button">Send</div>
-    </div>
-  </script>
-
-  <!-- Video choose template -->
-  <script id="video-choose-template" type="text/x-handlebars-template">
-    <div class="ui form">
-      <div class="fields">
-        <div class="field">
-          <label>User Name</label>
-          <input type="text" placeholder="Enter user name" id="username" name="username">
-        </div>
-        <div class="field">
-          <label>Room</label>
-          <input type="text" placeholder="Enter room name" id="roomName" name="roomName">
-        </div>
-      </div>
+  <body>
+    <!-- Main Content -->
+    <div class="ui container">
+      <h1 id="UUID" class="ui header"><%= UUID %></h1>
+      <h1 id="URL" class="ui header"><%= URL %></h1>
+      <hr>
       <br>
-      <div class="ui buttons">
-        <div id="create-btn" class="ui submit orange button">Create Room</div>
-        <div class="or"></div>
-        <div id="join-btn" class="ui submit green button">Join Room</div>
-      </div>
-    </div>
-  </script>
 
-  <!-- Video Chat Content Template -->
-  <script id="video-chat-content-template" type="text/x-handlebars-template">
-    {{#each messages}}
+
+      <div class="ui two column stackable grid">
+
+        <!-- see online peers or refresh invitations-->
+        <div class="ui sixteen wide column">
+          <div class="ui segment">
+            <!--<h2 class="ui header">State of the network<h2>-->
+            <div class="ui form">
+              <div class="ui buttons">
+                <div id="see-online-peers-btn" class="ui submit orange button">See online peers</div>
+                <div class="or"></div>
+                <div id="see-invitations-btn" class="ui submit green button">See invitations</div>
+              </div>
+            </div>
+            <!-- Online peers displayer -->
+            <div id="online-peers"></div>
+            <!-- Invitations displayer -->
+            <div id="invitations"></div>
+          </div>
+        </div>
+
+        <!-- create or join video chat -->
+        <div class="ui sixteen wide column">
+            <div class="ui segment">
+              <h2 class="ui header">Video chat<h2>
+              <!-- Chat Room Form -->
+              <div class="ui form">
+                <div class="fields">
+                  <div class="field">
+                    <label>User Name</label>
+                    <input type="text" placeholder="Enter user name" id="username" name="username">
+                  </div>
+                  <div class="field">
+                    <label>Room</label>
+                    <input type="text" placeholder="Enter room name" id="roomName" name="roomName">
+                  </div>
+                </div>
+                <br>
+                <div class="ui buttons">
+                  <div id="create-btn" class="ui submit orange button">Create video chat</div>
+                  <div class="or"></div>
+                  <div id="join-btn" class="ui submit green button">Join video chat</div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <!-- generate new key or disconnect -->
+        <div class="ui sixteen wide column">
+          <div class="ui segment">
+            <!--<h2 class="ui header">Connection Management<h2>-->
+              <div class="ui form">
+                <div class="ui buttons">
+                  <div id="generate-new-key-btn" class="ui submit black button">Generate new key</div>
+                  <div class="or"></div>
+                  <div id="disconnect-btn" class="ui submit red button">Disconnect</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    </div>
+
+    <!-- Internal scripts: "chat-template", "chat-content-template" "remote-video-template -->
+
+    <!-- Online peers template -->
+    <script id="online-peers-template" type="text/x-handlebars-template">
+      <h3 class="ui orange header">Online peers -> <strong>{{ online_peers }}</strong></h3>
+      <hr>
+      <div id="online-peers-content" class="ui feed"> </div>
+      <hr>
+      <div class="ui form">
+        <div class="ui field">
+          <label>Post Message</label>
+          <textarea id="post-message" name="post-message" rows="1"></textarea>
+        </div>
+        <div id="post-btn" class="ui primary submit button">Send</div>
+      </div>
+    </script>
+
+    <!-- Online Peers Content Template -->
+    <script id="online-peers-content-template" type="text/x-handlebars-template">
+      {{#each messages}}
       <div class="event">
         <div class="label">
           <i class="icon blue user"></i>
@@ -223,15 +121,111 @@
           </div>
         </div>
       </div>
-    {{/each}}
-  </script>
+      {{/each}}
+    </script>
+
+    <!-- invitations template -->
+    <script id="invitations-template" type="text/x-handlebars-template">
+      <h3 class="ui orange header">Room ID -> <strong>{{ room }}</strong></h3>
+      <hr>
+      <div id="invitations-content" class="ui feed"> </div>
+      <hr>
+      <div class="ui form">
+        <div class="ui field">
+          <label>Post Message</label>
+          <textarea id="post-message" name="post-message" rows="1"></textarea>
+        </div>
+        <div id="post-btn" class="ui primary submit button">Send</div>
+      </div>
+    </script>
+
+    <!-- Invitations Content Template -->
+    <script id="invitations-content-template" type="text/x-handlebars-template">
+      {{#each messages}}
+      <div class="event">
+        <div class="label">
+          <i class="icon blue user"></i>
+        </div>
+        <div class="content">
+          <div class="summary">
+            <a href="#"> {{ username }}</a> posted on
+            <div class="date">
+              {{ postedOn }}
+            </div>
+          </div>
+          <div class="extra text">
+            {{ message }}
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </script>
+
+    <!-- Video Chat Template -->
+    <script id="video-chat-template" type="text/x-handlebars-template">
+      <h3 class="ui orange header">Room ID -> <strong>{{ room }}</strong></h3>
+      <hr>
+      <div id="video-chat-content" class="ui feed"> </div>
+      <hr>
+      <div class="ui form">
+        <div class="ui field">
+          <label>Post Message</label>
+          <textarea id="post-message" name="post-message" rows="1"></textarea>
+        </div>
+        <div id="post-btn" class="ui primary submit button">Send</div>
+      </div>
+    </script>
+
+    <!-- Video Choose template -->
+    <script id="video-choose-template" type="text/x-handlebars-template">
+      <div class="ui form">
+        <div class="fields">
+          <div class="field">
+            <label>User Name</label>
+            <input type="text" placeholder="Enter user name" id="username" name="username">
+          </div>
+          <div class="field">
+            <label>Room</label>
+            <input type="text" placeholder="Enter room name" id="roomName" name="roomName">
+          </div>
+        </div>
+        <br>
+        <div class="ui buttons">
+          <div id="create-btn" class="ui submit orange button">Create Room</div>
+          <div class="or"></div>
+          <div id="join-btn" class="ui submit green button">Join Room</div>
+        </div>
+      </div>
+    </script>
+
+    <!-- Video Chat Content Template -->
+    <script id="video-chat-content-template" type="text/x-handlebars-template">
+      {{#each messages}}
+        <div class="event">
+          <div class="label">
+            <i class="icon blue user"></i>
+          </div>
+          <div class="content">
+            <div class="summary">
+              <a href="#"> {{ username }}</a> posted on
+              <div class="date">
+                {{ postedOn }}
+              </div>
+            </div>
+            <div class="extra text">
+              {{ message }}
+            </div>
+          </div>
+        </div>
+      {{/each}}
+    </script>
 
 
-  <!-- External scripts -->
-  <script src="node-scripts/jquery/dist/jquery.min.js"></script>
-  <script src="node-scripts/semantic-ui-css/semantic.min.js"></script>
-  <script src="node-scripts/handlebars/dist/handlebars.min.js "></script>
-  <script src="node-scripts/simplewebrtc/out/simplewebrtc-with-adapter.bundle.js"></script>
-  <script src="js-scripts/homepage.js"></script>
-</body>
+    <!-- External scripts -->
+    <script src="node-scripts/jquery/dist/jquery.min.js"></script>
+    <script src="node-scripts/semantic-ui-css/semantic.min.js"></script>
+    <script src="node-scripts/handlebars/dist/handlebars.min.js "></script>
+    <script src="node-scripts/simplewebrtc/out/simplewebrtc-with-adapter.bundle.js"></script>
+    <script src="js-scripts/homepage.js"></script>
+  </body>
 </html>

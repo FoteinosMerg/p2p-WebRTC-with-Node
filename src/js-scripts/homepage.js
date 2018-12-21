@@ -9,22 +9,22 @@ window.addEventListener("load", () => {
   // Collect online peers elements
   const onlinePeersTemplateEl = Handlebars.compile(
     $("#online-peers-template") // internal script
-    .html()
+      .html()
   );
   const onlinePeersContentTemplateEl = Handlebars.compile(
     $("#online-peers-content-template") // internal script
-    .html()
+      .html()
   );
   const onlinePeers = $("#online-peers");
 
   // Collect invitations elements
   const invitationsTemplateEl = Handlebars.compile(
     $("#invitations-template") // internal script
-    .html()
+      .html()
   );
   const invitationsContentTemplateEl = Handlebars.compile(
     $("#invitations-content-template") // internal script
-    .html()
+      .html()
   );
   const invitations = $("#invitations");
 
@@ -36,7 +36,7 @@ window.addEventListener("load", () => {
   const videoChooseTemplateEl = Handlebars.compile(
     $("#video-choose-template") // internal script
       .html()
-  )
+  );
   const videoChatContentTemplateEl = Handlebars.compile(
     $("#video-chat-content-template") // internal script
       .html()
@@ -49,20 +49,17 @@ window.addEventListener("load", () => {
   $(".submit").on("click", event => {
     switch (event.target.id) {
       case "see-online-peers-btn":
-        alert(event.target.id);
+        showOnlinePeers();
+        //window.location.href = `${window.location.href}video-chat`;
         break;
       case "see-invitations-btn":
-        alert(event.target.id);
-        break;
-      case "join-video-chat-btn":
-        // Redirect to video-chat page
-        window.location.href = `${window.location.href}video-chat`;
+        showInvitations();
         break;
       case "generate-new-key-btn":
-        alert(event.target.id);
+        generateNewKey();
         break;
       case "disconnect-btn":
-        alert(event.target.id);
+        disconnect();
         break;
       default:
         alert();
@@ -115,6 +112,24 @@ window.addEventListener("load", () => {
   });
 
   /* ------------------------------ Functions ------------------------------ */
+
+  const showOnlinePeers = () => {
+    alert("show online peers");
+    //const html = videoChooseTemplateEl();
+    //onlinePeers.html(html);
+  };
+
+  const showInvitations = () => {
+    alert("show invitations");
+  };
+
+  const generateNewKey = () => {
+    alert("generate new key");
+  };
+
+  const disconnect = () => {
+    alert("disconnect");
+  };
 
   const createPrivateChatRoom = roomName => {
     // eslint-disable-next-line no-console
