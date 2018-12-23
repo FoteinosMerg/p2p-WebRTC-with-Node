@@ -15,7 +15,6 @@ window.addEventListener("load", () => {
     $("#online-peers-content-template") // internal script
       .html()
   );
-  const onlinePeers = $("#online-peers");
 
   // Collect invitations elements
   const invitationsTemplateEl = Handlebars.compile(
@@ -26,7 +25,9 @@ window.addEventListener("load", () => {
     $("#invitations-content-template") // internal script
       .html()
   );
-  const invitations = $("#invitations");
+
+  // Collect online peers and invitations displayer
+  const displayer = $("#displayer");
 
   // Collect private chat elements
   const videoChatTemplateEl = Handlebars.compile(
@@ -50,10 +51,15 @@ window.addEventListener("load", () => {
     switch (event.target.id) {
       case "see-online-peers-btn":
         showOnlinePeers();
-        //window.location.href = `${window.location.href}video-chat`;
         break;
       case "see-invitations-btn":
         showInvitations();
+        break;
+      case "create-video-chat-btn":
+        createVideoChat();
+        break;
+      case "join-video-chat-btn":
+        joinVideoChat();
         break;
       case "generate-new-key-btn":
         generateNewKey();
@@ -114,13 +120,24 @@ window.addEventListener("load", () => {
   /* ------------------------------ Functions ------------------------------ */
 
   const showOnlinePeers = () => {
-    alert("show online peers");
+    const html = onlinePeersTemplateEl(); //"<div>test</div>"; //onlinePeersContentTemplateEl(["a", "b"]);
+    displayer.html(html);
     //const html = videoChooseTemplateEl();
     //onlinePeers.html(html);
   };
 
   const showInvitations = () => {
-    alert("show invitations");
+    const html = invitationsTemplateEl(); //"<div>test</div>"; //onlinePeersContentTemplateEl(["a", "b"]);
+    displayer.html(html);
+  };
+
+  const createVideoChat = () => {
+    window.location.href = `${window.location.href}video-chat`;
+    //alert("create video chat");
+  };
+
+  const joinVideoChat = () => {
+    alert("join video chat");
   };
 
   const generateNewKey = () => {

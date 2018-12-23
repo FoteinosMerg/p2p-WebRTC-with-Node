@@ -36,10 +36,9 @@
                 <div id="see-invitations-btn" class="ui submit green button">See invitations</div>
               </div>
             </div>
-            <!-- Online peers displayer -->
-            <div id="online-peers"></div>
-            <!-- Invitations displayer -->
-            <div id="invitations"></div>
+            <!-- Online peers and invitations displayer -->
+            <br>
+            <div id="displayer"></div>
           </div>
         </div>
 
@@ -61,9 +60,9 @@
                 </div>
                 <br>
                 <div class="ui buttons">
-                  <div id="create-btn" class="ui submit orange button">Create video chat</div>
+                  <div id="create-video-chat-btn" class="ui submit orange button">Create video chat</div>
                   <div class="or"></div>
-                  <div id="join-btn" class="ui submit green button">Join video chat</div>
+                  <div id="join-video-chat-btn" class="ui submit green button">Join video chat</div>
                 </div>
               </div>
             </div>
@@ -89,17 +88,11 @@
 
     <!-- Online peers template -->
     <script id="online-peers-template" type="text/x-handlebars-template">
-      <h3 class="ui orange header">Online peers -> <strong>{{ online_peers }}</strong></h3>
+      <h3 class="ui orange header">Online peers</h3>
       <hr>
-      <div id="online-peers-content" class="ui feed"> </div>
-      <hr>
-      <div class="ui form">
-        <div class="ui field">
-          <label>Post Message</label>
-          <textarea id="post-message" name="post-message" rows="1"></textarea>
-        </div>
-        <div id="post-btn" class="ui primary submit button">Send</div>
+      <div id="online-peers-content" class="ui feed">
       </div>
+      <hr>
     </script>
 
     <!-- Online Peers Content Template -->
@@ -110,33 +103,21 @@
           <i class="icon blue user"></i>
         </div>
         <div class="content">
-          <div class="summary">
-            <a href="#"> {{ username }}</a> posted on
-            <div class="date">
-              {{ postedOn }}
-            </div>
-          </div>
           <div class="extra text">
-            {{ message }}
+            test<!--{{ message }}-->
           </div>
         </div>
       </div>
       {{/each}}
     </script>
 
-    <!-- invitations template -->
+    <!-- Invitations template -->
     <script id="invitations-template" type="text/x-handlebars-template">
-      <h3 class="ui orange header">Room ID -> <strong>{{ room }}</strong></h3>
+      <h3 class="ui orange header">Invitations</h3>
       <hr>
-      <div id="invitations-content" class="ui feed"> </div>
-      <hr>
-      <div class="ui form">
-        <div class="ui field">
-          <label>Post Message</label>
-          <textarea id="post-message" name="post-message" rows="1"></textarea>
-        </div>
-        <div id="post-btn" class="ui primary submit button">Send</div>
+      <div id="invitations-content" class="ui feed">
       </div>
+      <hr>
     </script>
 
     <!-- Invitations Content Template -->
